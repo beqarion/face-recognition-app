@@ -4,6 +4,8 @@ import Logo from './components/Logo/Logo'
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm'
 import FaceRecognition from './components/FaceRecognition/FaceRecognition'
 import Rank from './components/Rank/Rank'
+import Signin from './components/Signin/Signin'
+import Register from './components/Register/Register'
 import Particles from 'react-particles-js'
 import './App.css'
 
@@ -28,6 +30,8 @@ function App() {
   const [input, setInput] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [box, setBox] = useState({})
+  const [route, setRoute] = useState('signin')
+  const [isSignedIn, setIsSignedIn] = useState(false)
 
   const calculateFaceLocation = (data) => {
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box
@@ -42,6 +46,15 @@ function App() {
 
     }
   }
+  const onRouteChange = (r) => {
+    if ( r === 'signout') {
+      setIsSignedIn(false)
+    } else if (r === 'home') {
+      setIsSignedIn (true)
+    }
+    setRoute(r)
+  }
+
   const displayFaceBox = box => {
     setBox(box)
   }
@@ -62,14 +75,21 @@ function App() {
         className='particles'
         params={particlesOptions}
       />
-      <Navigation />
-      <Logo />
-      <Rank />
-      <ImageLinkForm 
-        onInputChange={onInputChange}
-        onSubmit={onSubmit}
-      />
-      <FaceRecognition box={box} imageUrl={imageUrl} />
+      <Navigation onRouteChange={onRouteChange} isSignedIn={isSignedIn} />
+      { route === 'home'
+        ? <div>
+            <Logo /> 
+            <Rank />
+            <ImageLinkForm 
+              onInputChange={onInputChange}
+              onSubmit={onSubmit}
+            />
+            <FaceRecognition box={box} imageUrl={imageUrl} />
+          </div> 
+        : (route === 'signin'
+          ? <Signin onRouteChange={onRouteChange}/>
+          : <Register onRouteChange={onRouteChange} />
+          )} 
     </div>
   )
 }
