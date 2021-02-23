@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from 'react'
+import Navigation from './components/Navigation/Navigation'
+import Logo from './components/Logo/Logo'
+import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm'
+import Rank from './components/Rank/Rank'
+import Particles from 'react-particles-js'
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Clarifai from 'clarifai'
+const app = new Clarifai.App({
+ apiKey: 'ac1729bda4bc40a4ab9e5f4f45fb1c31'
+});
+
+const particlesOptions = {
+  particles: {
+    number: {
+      value: 90,
+      density: {
+        enable: true,
+        value_area: 800
+      }
+    }
+  }
 }
 
-export default App;
+function App() {
+  const [input, setInput] = useState('')
+
+  const onInputChange = (event) => {
+    setInput(event.target.value)
+  }
+  const onSubmit = () => {
+
+  }
+  return (
+    <div className="App">
+      <Particles 
+        className='particles'
+        params={particlesOptions}
+      />
+      <Navigation />
+      <Logo />
+      <Rank />
+      <ImageLinkForm 
+        onInputChange={onInputChange}
+        onSubmit={onSubmit}
+      />
+      {/* <FaceRecognition /> */}
+    </div>
+  )
+}
+
+export default App
