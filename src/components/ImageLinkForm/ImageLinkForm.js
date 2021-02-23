@@ -17,10 +17,3 @@ const ImageLinkForm = ({ onInputChange, onSubmit }) => {
 }
 
 export default ImageLinkForm
-
-// .predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
-
-// to:
-
-// .predict('c0c0ac362b03416da06ab3fa36fb58e3', this.state.input)
-
