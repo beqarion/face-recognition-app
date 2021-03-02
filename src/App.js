@@ -49,10 +49,10 @@ function App() {
     }
   }
   const onRouteChange = (r) => {
-    if ( r === 'signout') {
-      setIsSignedIn(false)
-    } else if (r === 'home') {
-      setIsSignedIn (true)
+    if ( r === 'home') {
+      setIsSignedIn(true)
+    } else {
+      setIsSignedIn (false)
     }
     setRoute(r)
   }
