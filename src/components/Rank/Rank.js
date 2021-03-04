@@ -1,11 +1,11 @@
-const Rank = () => {
+const Rank = ({ user }) => {
     return (
         <div>
             <div className='white f3'>
-                {'Bekarson, current rank - General'}
+                {`${user.name}, current rank is...`}
             </div>
             <div className='white f1'>
-                {'#5'}
+                {`#${user.entries}`}
             </div>
         </div>
     )

@@ -41,7 +41,6 @@ function App() {
   })
 
   const loadUser = data => {
-    console.log(data, typeof data)
     setUser({
       ...user,
       ...data
@@ -94,7 +93,7 @@ function App() {
       { route === 'home'
         ? <div>
             <Logo /> 
-            <Rank />
+            <Rank user={user} />
             <ImageLinkForm 
               onInputChange={onInputChange}
               onSubmit={onSubmit}
@@ -102,7 +101,7 @@ function App() {
             <FaceRecognition box={box} imageUrl={imageUrl} />
           </div> 
         : (route === 'signin'
-          ? <Signin onRouteChange={onRouteChange}/>
+          ? <Signin onRouteChange={onRouteChange} loadUser={loadUser} />
           : <Register onRouteChange={onRouteChange} loadUser={loadUser} />
           )} 
     </div>
