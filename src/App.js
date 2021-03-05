@@ -57,9 +57,9 @@ function App() {
       topRow: clarifaiFace.top_row * height,
       rightCol: width - (width * clarifaiFace.right_col),
       bottomRow: height - (clarifaiFace.bottom_row * height)
-
     }
   }
+
   const onRouteChange = (r) => {
     if ( r === 'home') {
       setIsSignedIn(true)
@@ -78,8 +78,22 @@ function App() {
   }
   const onSubmit = () => {
     setImageUrl(input)
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, input)
-      .then(response => {displayFaceBox(calculateFaceLocation(response))})
+    app.models
+      .predict(Clarifai.FACE_DETECT_MODEL, input)
+      .then(response => {
+        if (response) {
+          fetch('http://localhost:3001/image', {
+            'method': 'put',
+            'headers': {'Content-Type': 'application/json'},
+            'body': JSON.stringify({
+              id:  user.id
+            })
+          })
+          .then(response => response.json())
+          .then(count => {setUser({...user, count})} )
+        }
+        displayFaceBox(calculateFaceLocation(response))
+      })
       .catch( err => {console.log(err)})
       
   }
