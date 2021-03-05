@@ -90,7 +90,10 @@ function App() {
             })
           })
           .then(response => response.json())
-          .then(count => {setUser({...user, count})} )
+          .then(count => {
+            console.log(user, count)
+            setUser({...user, entries: count})
+          } )
         }
         displayFaceBox(calculateFaceLocation(response))
       })
