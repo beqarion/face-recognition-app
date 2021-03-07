@@ -1,25 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './FaceRecognition.css'
+import FaceFrame from '../FaceFrame/FaceFrame'
 
 
-const FaceRecognition = ({ imageUrl, box}) => {
-
+const FaceRecognition = ({ imageUrl, boxes}) => {
     
-
     return (
         <div className='center ma'>
             <div className='relative mt2'>
                 <img id='inputimage' src={imageUrl} width='500px' height='auto' />
-                <div 
-                    className='bounding-box' 
-                    style={{
-                        top: box.topRow,
-                        right: box.rightCol,
-                        bottom: box.bottomRow,
-                        left: box.leftCol
-                    }}>
-                    
-                </div>
+                {boxes.map( box => <FaceFrame box={box} key={box.id} />)}
             </div>
         </div>
     )

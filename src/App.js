@@ -29,7 +29,7 @@ const particlesOptions = {
 function App() {
   const [input, setInput] = useState('')
   const [imageUrl, setImageUrl] = useState('')
-  const [box, setBox] = useState({})
+  const [boxes, setBoxes] = useState({})
   const [route, setRoute] = useState('signin')
   const [isSignedIn, setIsSignedIn] = useState(false)
   const [user, setUser] = useState({
@@ -47,17 +47,23 @@ function App() {
     })
   }
 
-  const calculateFaceLocation = (data) => {
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box
+  const calculateFaceLocations = (data) => {
     const image = document.getElementById('inputimage')
     const width = Number(image.width)
     const height = Number(image.height)
-    return {
-      leftCol: clarifaiFace.left_col * width,
-      topRow: clarifaiFace.top_row * height,
-      rightCol: width - (width * clarifaiFace.right_col),
-      bottomRow: height - (clarifaiFace.bottom_row * height)
-    }
+
+    const faceRegions = data.outputs[0].data.regions
+    const faceLocationsArr = faceRegions.map(region => {
+      const boundings = region.region_info.bounding_box
+      return {
+        id: region.id,
+        leftCol: boundings.left_col * width,
+        topRow: boundings.top_row * height,
+        rightCol: width - (width * boundings.right_col),
+        bottomRow: height - (boundings.bottom_row * height)
+      }
+    })
+    return faceLocationsArr
   }
 
   const onRouteChange = (r) => {
@@ -69,8 +75,8 @@ function App() {
     setRoute(r)
   }
 
-  const displayFaceBox = box => {
-    setBox(box)
+  const updateFaceState = boxes => {
+    setBoxes(boxes)
   }
 
   const onInputChange = (event) => {
@@ -91,11 +97,10 @@ function App() {
           })
           .then(response => response.json())
           .then(count => {
-            console.log(user, count)
             setUser({...user, entries: count})
           } )
         }
-        displayFaceBox(calculateFaceLocation(response))
+        updateFaceState(calculateFaceLocations(response))
       })
       .catch( err => {console.log(err)})
       
@@ -115,7 +120,7 @@ function App() {
               onInputChange={onInputChange}
               onSubmit={onSubmit}
             />
-            <FaceRecognition box={box} imageUrl={imageUrl} />
+            <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
           </div> 
         : (route === 'signin'
           ? <Signin onRouteChange={onRouteChange} loadUser={loadUser} />
