@@ -29,7 +29,7 @@ const particlesOptions = {
 function App() {
   const [input, setInput] = useState('')
   const [imageUrl, setImageUrl] = useState('')
-  const [boxes, setBoxes] = useState({})
+  const [boxes, setBoxes] = useState([])
   const [route, setRoute] = useState('signin')
   const [isSignedIn, setIsSignedIn] = useState(false)
   const [user, setUser] = useState({
