@@ -40,6 +40,21 @@ function App() {
     joined: ''
   })
 
+  const setInitialState = () => {
+    setInput('')
+    setImageUrl('')
+    setBoxes([])
+    setRoute('signin')
+    setIsSignedIn(false)
+    setUser({
+      id: '',
+      name: '',
+      email: '',
+      entries: 0,
+      joined: ''
+    })
+  }
+
   const loadUser = data => {
     setUser({
       ...user,
@@ -70,7 +85,7 @@ function App() {
     if ( r === 'home') {
       setIsSignedIn(true)
     } else {
-      setIsSignedIn (false)
+      setInitialState()
     }
     setRoute(r)
   }
@@ -98,7 +113,8 @@ function App() {
           .then(response => response.json())
           .then(count => {
             setUser({...user, entries: count})
-          } )
+          })
+          .catch(console.log)
         }
         updateFaceState(calculateFaceLocations(response))
       })
