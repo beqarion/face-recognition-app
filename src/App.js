@@ -101,7 +101,7 @@ function App() {
         throw new Error('input url is empty')
       }
       setImageUrl(input)
-      fetch('https://frozen-mesa-10644.herokuapp.com/imageurl', {
+      fetch('https://smart-brain-85-back.herokuapp.com/imageurl', {
         'method': 'post',
         'headers': {'Content-Type': 'application/json'},
         'body': JSON.stringify({
@@ -111,7 +111,7 @@ function App() {
       .then(response => response.json())
       .then(response => {
         if (response) {
-          fetch('https://frozen-mesa-10644.herokuapp.com/image', {
+          fetch('https://smart-brain-85-back.herokuapp.com/image', {
             'method': 'put',
             'headers': {'Content-Type': 'application/json'},
             'body': JSON.stringify({

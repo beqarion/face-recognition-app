@@ -16,7 +16,7 @@ const Signin = ({ onRouteChange, loadUser }) => {
     }
 
     const onSubmit = () => {
-        fetch('https://frozen-mesa-10644.herokuapp.com/signin', {
+        fetch('https://smart-brain-85-back.herokuapp.com/signin', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
