@@ -20,7 +20,7 @@ const Register = ({ onRouteChange, loadUser }) => {
     }
 
     const onSubmit = () => {
-        fetch('http://localhost:3001/register', {
+        fetch('https://frozen-mesa-10644.herokuapp.com/register', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
