@@ -9,10 +9,8 @@ import Register from './components/Register/Register'
 import Particles from 'react-particles-js'
 import './App.css'
 
-import Clarifai from 'clarifai'
-const app = new Clarifai.App({
- apiKey: "ac1729bda4bc40a4ab9e5f4f45fb1c31"
-});
+
+
 
 const particlesOptions = {
   particles: {
@@ -98,9 +96,19 @@ function App() {
     setInput(event.target.value)
   }
   const onSubmit = () => {
-    setImageUrl(input)
-    app.models
-      .predict(Clarifai.FACE_DETECT_MODEL, input)
+    try {
+      if (input === ''){
+        throw new Error('input url is empty')
+      }
+      setImageUrl(input)
+      fetch('http://localhost:3001/imageurl', {
+        'method': 'post',
+        'headers': {'Content-Type': 'application/json'},
+        'body': JSON.stringify({
+          input
+        })
+      })
+      .then(response => response.json())
       .then(response => {
         if (response) {
           fetch('http://localhost:3001/image', {
@@ -119,6 +127,9 @@ function App() {
         updateFaceState(calculateFaceLocations(response))
       })
       .catch( err => {console.log(err)})
+    } catch (error) {
+      console.log(error.message)
+    }
       
   }
   return (
